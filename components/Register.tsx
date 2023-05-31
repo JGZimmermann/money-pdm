@@ -22,7 +22,7 @@ export default function Register() {
           email: email,
           password: password
         })
-        router.push("/home/after-login");
+        router.push("after-login");
       } catch (error: any) {
         Alert.alert("Erro", error.toString())
       }

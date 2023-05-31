@@ -5,7 +5,7 @@ import { Alert } from 'react-native';
 import { createClient } from '@supabase/supabase-js'
 
 export default function Login() {
-  const supabaseUrl = 'URL do supabase'
+  const supabaseUrl = "URL do supabase"
   const supabaseKey = "Key do supabase"
   const supabase = createClient(supabaseUrl, supabaseKey)
   const [email, setEmail] = useState("")
