@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@expo/webpack-config": "^0.17.4",
+    "@supabase/supabase-js": "^2.24.0",
     "expo": "^48.0.10",
     "expo-constants": "~13.2.4",
     "expo-image": "~1.0.0",

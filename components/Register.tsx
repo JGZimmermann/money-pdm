@@ -2,12 +2,13 @@ import { NativeBaseProvider, Box, HStack, VStack, Text, Pressable, Image, Center
 import React from 'react'
 import { Link, useRouter } from "expo-router";
 import { useState } from "react";
-import useAuth from '../simple-firestore-hooks/hooks/useAuth'
 import { Alert } from 'react-native';
+import { createClient } from '@supabase/supabase-js'
 
 export default function Register() {
-  const { newUser } = useAuth();
-
+  const supabaseUrl = 'URL do supabase'
+  const supabaseKey = "Key do supabase"
+  const supabase = createClient(supabaseUrl, supabaseKey)
   const router = useRouter();
 
   const [email, setEmail] = useState("");
@@ -17,8 +18,11 @@ export default function Register() {
   const handleRegister = async () => {
     if(password == confirmPassword){
       try {
-        await newUser(email, password);
-        router.push("/home/Money");
+        await supabase.auth.signUp({
+          email: email,
+          password: password
+        })
+        router.push("/home/after-login");
       } catch (error: any) {
         Alert.alert("Erro", error.toString())
       }

@@ -1,8 +1,5 @@
 import { Tabs } from "expo-router";
-import firebaseConfig from "../../simple-firestore-hooks/config/firebaseConfig.example";
-import useFirebase from "../../simple-firestore-hooks/hooks/useFirebase";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { View, Text } from "react-native";
 
 type ScreenProps = {
   [key: string]: {
@@ -23,9 +20,6 @@ const Screens: ScreenProps = {
 };
 
 export default function DefaultLayout() {
-  const firebaseApp = useFirebase(firebaseConfig);
-
-  if (firebaseApp == null) return <View><Text>Loading...</Text></View>;
   return (
     <Tabs
       screenOptions=
