@@ -2,11 +2,12 @@ import { NativeBaseProvider, Box, HStack, VStack, Text, Pressable, Image, Center
 import React, { useState } from 'react'
 import { useRouter, Link } from "expo-router";
 import { Alert } from 'react-native';
+import 'react-native-url-polyfill/auto'
 import { createClient } from '@supabase/supabase-js'
 
 export default function Login() {
-  const supabaseUrl = "URL do supabase"
-  const supabaseKey = "Key do supabase"
+  const supabaseUrl = ""
+  const supabaseKey = ""
   const supabase = createClient(supabaseUrl, supabaseKey)
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")

@@ -17,6 +17,10 @@ const Screens: ScreenProps = {
     label: "Receita",
     icon: "cash-outline",
   },
+  "expense/index": {
+    label: "Despesas",
+    icon: "card-outline",
+  }
 };
 
 export default function DefaultLayout() {

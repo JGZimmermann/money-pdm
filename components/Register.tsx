@@ -3,11 +3,12 @@ import React from 'react'
 import { Link, useRouter } from "expo-router";
 import { useState } from "react";
 import { Alert } from 'react-native';
+import 'react-native-url-polyfill/auto'
 import { createClient } from '@supabase/supabase-js'
 
 export default function Register() {
-  const supabaseUrl = 'URL do supabase'
-  const supabaseKey = "Key do supabase"
+  const supabaseUrl = ""
+  const supabaseKey = ""
   const supabase = createClient(supabaseUrl, supabaseKey)
   const router = useRouter();
 

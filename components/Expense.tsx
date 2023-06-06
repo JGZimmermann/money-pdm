@@ -19,7 +19,7 @@ export default function App() {
 
   const handleAddItem = async () => {
     try {
-      const { data, error } = await supabase.from('financa').insert([{ nome, valor }]);
+      const { data, error } = await supabase.from('despesa').insert([{ nome, valor }]);
 
       if (error) {
         console.error('Error adding item:', error);
