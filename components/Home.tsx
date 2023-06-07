@@ -4,19 +4,21 @@ import 'react-native-url-polyfill/auto'
 import { createClient } from '@supabase/supabase-js';
 import { Alert } from 'react-native';
 import { AntDesign } from "@expo/vector-icons";
+import { VictoryPie } from 'victory-native';
+import { useFocusEffect, useRouter } from 'expo-router';
 
-const supabaseUrl = '';
-const supabaseKey = '';
+const supabaseUrl = "https://ychetyiyxofopaqbkxzw.supabase.co"
+const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InljaGV0eWl5eG9mb3BhcWJreHp3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODU1Njc1OTMsImV4cCI6MjAwMTE0MzU5M30.15iyRyumiZowEdnQ12RfF51Ti21RoL4pT2hr-a02F0w"
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 export default function Home() {
-  const [financas, setFinancas] = useState([]);
-  const [despesas, setDespesas] = useState([]);
+  const [financas, setFinancas] = useState<any>([]);
+  const [despesas, setDespesas] = useState<any>([]);
 
-  useEffect(() => {
+  useFocusEffect(() => {
     fetchFinancas();
     fetchDespesas();
-  }, []);
+  });
 
   const fetchFinancas = async () => {
     try {
@@ -173,7 +175,6 @@ export default function Home() {
     );
   };
   
-  
 
   const handleBadgePress = (id: number, nome: string, valor: string) => {
     Alert.alert(
@@ -194,6 +195,15 @@ export default function Home() {
           </VStack>
         </HStack>
       </Box>
+
+      <VictoryPie
+        data={financas.concat(despesas)}
+        x="nome"
+        y="valor"
+        colorScale="qualitative"
+        padding={100}
+      />
+
       <HStack space={2} marginLeft="6" marginTop="5">
         <VStack space={3}>
           {financas.map((financa) => (

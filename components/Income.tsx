@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, FlatList, StyleSheet } from 'react-native';
+import { Alert } from 'react-native';
 import 'react-native-url-polyfill/auto'
 import { createClient } from '@supabase/supabase-js';
+import { useRouter } from 'expo-router';
 
-const supabaseUrl = '';
-const supabaseKey = '';
+const supabaseUrl = "https://ychetyiyxofopaqbkxzw.supabase.co"
+const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InljaGV0eWl5eG9mb3BhcWJreHp3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODU1Njc1OTMsImV4cCI6MjAwMTE0MzU5M30.15iyRyumiZowEdnQ12RfF51Ti21RoL4pT2hr-a02F0w"
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 interface Item {
@@ -13,6 +15,7 @@ interface Item {
 }
 
 export default function App() {
+  const router = useRouter()
   const [nome, setNome] = useState('');
   const [valor, setValor] = useState('');
   const [lista, setLista] = useState<Item[]>([]);
@@ -23,6 +26,7 @@ export default function App() {
 
       if (error) {
         console.error('Error adding item:', error);
+        Alert.alert("Erro ao cadastrar a receita", error.toString())
       } else {
         if (data) {
           const newItem = { nome, valor };
@@ -30,6 +34,7 @@ export default function App() {
           setNome('');
           setValor('');
         }
+        router.push('../')
       }
     } catch (error) {
       console.error('Error adding item:', error);

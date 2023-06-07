@@ -6,8 +6,8 @@ import 'react-native-url-polyfill/auto'
 import { createClient } from '@supabase/supabase-js'
 
 export default function Login() {
-  const supabaseUrl = ""
-  const supabaseKey = ""
+  const supabaseUrl = "https://ychetyiyxofopaqbkxzw.supabase.co"
+  const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InljaGV0eWl5eG9mb3BhcWJreHp3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODU1Njc1OTMsImV4cCI6MjAwMTE0MzU5M30.15iyRyumiZowEdnQ12RfF51Ti21RoL4pT2hr-a02F0w"
   const supabase = createClient(supabaseUrl, supabaseKey)
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
