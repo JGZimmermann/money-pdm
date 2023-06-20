@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Center, NativeBaseProvider, Box, HStack, VStack, Text, extendTheme, Avatar, Badge, Fab, Icon } from 'native-base';
 import 'react-native-url-polyfill/auto'
-import { createClient } from '@supabase/supabase-js';
 import { Alert } from 'react-native';
 import { AntDesign } from "@expo/vector-icons";
 import { VictoryPie } from 'victory-native';
 import { useFocusEffect, useRouter } from 'expo-router';
+import supabaseConfig from '../config/supabaseConfig';
 
-const supabaseUrl = "https://ychetyiyxofopaqbkxzw.supabase.co"
-const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InljaGV0eWl5eG9mb3BhcWJreHp3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODU1Njc1OTMsImV4cCI6MjAwMTE0MzU5M30.15iyRyumiZowEdnQ12RfF51Ti21RoL4pT2hr-a02F0w"
-const supabase = createClient(supabaseUrl, supabaseKey);
+const supabase = supabaseConfig;
 
 export default function Home() {
   const [financas, setFinancas] = useState<any>([]);
@@ -48,7 +46,7 @@ export default function Home() {
     }
   };
 
-  const handleUpdateItemFinanca = async (id) => {
+  const handleUpdateItemFinanca = async (id: any) => {
     Alert.prompt(
       'Atualizar Item',
       'Informe os novos valores:',
@@ -56,7 +54,7 @@ export default function Home() {
         { text: 'Cancelar', style: 'cancel' },
         {
           text: 'Atualizar',
-          onPress: async (text) => {
+          onPress: async (text: any) => {
             const [nome, valor] = text.split(',');
 
             try {
@@ -81,7 +79,7 @@ export default function Home() {
     );
   };
 
-  const handleUpdateItemDespesa = async (id) => {
+  const handleUpdateItemDespesa = async (id: any) => {
     Alert.prompt(
       'Atualizar Item',
       'Informe os novos valores:',
@@ -89,7 +87,7 @@ export default function Home() {
         { text: 'Cancelar', style: 'cancel' },
         {
           text: 'Atualizar',
-          onPress: async (text) => {
+          onPress: async (text: any) => {
             const [nome, valor] = text.split(',');
 
             try {
@@ -115,7 +113,7 @@ export default function Home() {
   };
   
   
-  const handleDeleteItemFinanca = async (id) => {
+  const handleDeleteItemFinanca = async (id: number) => {
     Alert.alert(
       'Excluir Item',
       'Tem certeza que deseja excluir o item?',
@@ -145,7 +143,7 @@ export default function Home() {
     );
   };
   
-  const handleDeleteItemDespesa = async (id) => {
+  const handleDeleteItemDespesa = async (id: any) => {
     Alert.alert(
       'Excluir Item',
       'Tem certeza que deseja excluir o item?',
@@ -206,7 +204,7 @@ export default function Home() {
 
       <HStack space={2} marginLeft="6" marginTop="5">
         <VStack space={3}>
-          {financas.map((financa) => (
+          {financas.map((financa: { id: React.Key | null | undefined; nome: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | null | undefined; valor: string; }) => (
             <HStack key={financa.id}>
               <Badge colorScheme="success">
                 <Text onPress={() => handleBadgePress(financa.id, financa.nome, financa.valor)}>
@@ -226,7 +224,7 @@ export default function Home() {
               />
             </HStack>
           ))}
-          {despesas.map((despesa) => (
+          {despesas.map((despesa: { id: React.Key | null | undefined; nome: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | null | undefined; valor: string; }) => (
             <HStack key={despesa.id}>
               <Badge colorScheme="danger">
                 <Text onPress={() => handleBadgePress(despesa.id, despesa.nome, despesa.valor)}>
