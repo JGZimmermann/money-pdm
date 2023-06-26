@@ -6,7 +6,7 @@ import 'react-native-url-polyfill/auto'
 import { useFocusEffect, useRouter } from 'expo-router';
 import supabaseConfig from '../config/supabaseConfig';
 import { VictoryPie } from 'victory-native';
-import { Badge, Box, HStack, Icon, NativeBaseProvider, VStack, theme } from 'native-base';
+import { Badge, HStack, Icon, NativeBaseProvider, VStack, theme } from 'native-base';
 
 const supabase = supabaseConfig;
 
