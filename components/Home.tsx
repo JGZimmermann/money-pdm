@@ -46,7 +46,7 @@ export default function Home() {
     }
   };
 
-  const handleUpdateItemFinanca = async (id: any) => {
+  const handleUpdateItemFinanca = async (id: number) => {
     Alert.prompt(
       'Atualizar Item',
       'Informe os novos valores:',
@@ -54,7 +54,7 @@ export default function Home() {
         { text: 'Cancelar', style: 'cancel' },
         {
           text: 'Atualizar',
-          onPress: async (text: any) => {
+          onPress: async (text: string | undefined) => {
             const [nome, valor] = text.split(',');
 
             try {
@@ -79,7 +79,7 @@ export default function Home() {
     );
   };
 
-  const handleUpdateItemDespesa = async (id: any) => {
+  const handleUpdateItemDespesa = async (id: number) => {
     Alert.prompt(
       'Atualizar Item',
       'Informe os novos valores:',
@@ -87,7 +87,7 @@ export default function Home() {
         { text: 'Cancelar', style: 'cancel' },
         {
           text: 'Atualizar',
-          onPress: async (text: any) => {
+          onPress: async (text: string | undefined) => {
             const [nome, valor] = text.split(',');
 
             try {
@@ -123,7 +123,7 @@ export default function Home() {
           text: 'Excluir', style: "destructive",
           onPress: async () => {
             try {
-              const { data, error } = await supabase
+              const { error } = await supabase
                 .from('financa')
                 .delete()
                 .eq('id', id);
@@ -143,7 +143,7 @@ export default function Home() {
     );
   };
   
-  const handleDeleteItemDespesa = async (id: any) => {
+  const handleDeleteItemDespesa = async (id: number) => {
     Alert.alert(
       'Excluir Item',
       'Tem certeza que deseja excluir o item?',
