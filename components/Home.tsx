@@ -12,10 +12,14 @@ const supabase = supabaseConfig;
 export default function Home() {
   const [financas, setFinancas] = useState<any>([]);
   const [despesas, setDespesas] = useState<any>([]);
+  const [totalfinancas, setTotalFinancas] = useState<any>([]);
+  const [totaldespesas, setTotalDespesas] = useState<any>([]);
 
   useFocusEffect(() => {
     fetchFinancas();
     fetchDespesas();
+    fetchTotalDespesas();
+    fetchTotalFinancas();
   });
 
   const fetchFinancas = async () => {
@@ -43,6 +47,30 @@ export default function Home() {
       }
     } catch (error) {
       console.error('Error fetching expenses:', error);
+    }
+  };
+
+  const fetchTotalFinancas = async () => {
+    try {
+      let total = 0;
+      financas.forEach(function (financa: { valor: number; }) {
+        total = total + financa.valor;
+      }); 
+      setTotalFinancas(total);
+    } catch (error) {
+      console.error('Error fetching total expenses:', error);
+    }
+  };
+
+  const fetchTotalDespesas = async () => {
+    try {
+      let total = 0;
+      despesas.forEach(function (despesa: { valor: number; }) {
+        total = total + despesa.valor;
+      }); 
+      setTotalDespesas(total);
+    } catch (error) {
+      console.error('Error fetching total expenses:', error);
     }
   };
 
@@ -195,16 +223,20 @@ export default function Home() {
       </Box>
 
       <VictoryPie
-        data={financas.concat(despesas)}
-        x="nome"
-        y="valor"
-        colorScale="qualitative"
+        data={[
+          { x: "Finanças", y: totalfinancas},
+          { x: "Despesas", y: totaldespesas}
+        ]}
+        colorScale={["green", "#c43a31"]}
+        labels={({ datum }) => `R$ ${datum.y}`}
+        labelRadius={({ innerRadius }) => innerRadius + 40 }
         padding={100}
+        style={{ labels: { fill: "white", fontSize: 20, fontWeight: "bold" } }}
       />
 
       <HStack space={2} marginLeft="6" marginTop="5">
         <VStack space={3}>
-          {financas.map((financa: { id: React.Key | null | undefined; nome: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | null | undefined; valor: string; }) => (
+          {financas.map((financa: { id: number; nome: string; valor: string; }) => (
             <HStack key={financa.id}>
               <Badge colorScheme="success">
                 <Text onPress={() => handleBadgePress(financa.id, financa.nome, financa.valor)}>
@@ -224,7 +256,7 @@ export default function Home() {
               />
             </HStack>
           ))}
-          {despesas.map((despesa: { id: React.Key | null | undefined; nome: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | null | undefined; valor: string; }) => (
+          {despesas.map((despesa: { id: number; nome: string; valor: string; }) => (
             <HStack key={despesa.id}>
               <Badge colorScheme="danger">
                 <Text onPress={() => handleBadgePress(despesa.id, despesa.nome, despesa.valor)}>
