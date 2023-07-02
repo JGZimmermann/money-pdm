@@ -1,6 +1,6 @@
-import { NativeBaseProvider, Box, HStack, VStack, Text, Pressable, Image, Center, extendTheme, Input, Stack, Button } from 'native-base';
+import { NativeBaseProvider, Box, VStack, Text, extendTheme, Input, Stack, Button } from 'native-base';
 import React from 'react'
-import { Link, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import { useState } from "react";
 import { Alert } from 'react-native';
 import 'react-native-url-polyfill/auto'

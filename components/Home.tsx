@@ -1,10 +1,10 @@
-import React, { useEffect, useState} from 'react';
-import { Center, NativeBaseProvider, Box, HStack, VStack, Text, extendTheme, Avatar, Badge, Fab, Icon, ScrollView } from 'native-base';
+import React, { useState} from 'react';
+import { NativeBaseProvider, Box, HStack, VStack, Text, extendTheme, Avatar, Badge, Icon, ScrollView } from 'native-base';
 import 'react-native-url-polyfill/auto'
 import { Alert } from 'react-native';
 import { AntDesign } from "@expo/vector-icons";
 import { VictoryPie } from 'victory-native';
-import { useFocusEffect, useRouter } from 'expo-router';
+import { useFocusEffect} from 'expo-router';
 import supabaseConfig from '../config/supabaseConfig';
 
 const supabase = supabaseConfig;
@@ -140,7 +140,6 @@ export default function Home() {
     );
   };
   
-  
   const handleDeleteItemFinanca = async (id: number) => {
     Alert.alert(
       'Excluir Item',
@@ -200,7 +199,6 @@ export default function Home() {
       ],
     );
   };
-  
 
   const handleBadgePress = (id: number, nome: string, valor: string) => {
     Alert.alert(
@@ -208,7 +206,6 @@ export default function Home() {
       `Valor: ${valor}`,
     );
   };
-  
 
   return (
     <NativeBaseProvider theme={theme}>
@@ -233,8 +230,7 @@ export default function Home() {
           padding={100}
           style={{ labels: { fill: "white", fontSize: 20, fontWeight: "bold" } }}
         />
-
-        <HStack space={2} marginLeft="6" marginTop="5">
+        <HStack space={2} marginLeft="6" marginBottom="10">
           <VStack space={3}>
             {financas.map((financa: { id: number; nome: string; valor: string; }) => (
               <HStack key={financa.id}>

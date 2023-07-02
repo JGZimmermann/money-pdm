@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, FlatList, StyleSheet } from 'react-native';
+import { View, Text, TextInput, Button, FlatList} from 'react-native';
 import { Alert } from 'react-native';
 import { AntDesign } from "@expo/vector-icons";
 import 'react-native-url-polyfill/auto'
-import { useFocusEffect, useRouter } from 'expo-router';
+import { useFocusEffect} from 'expo-router';
 import supabaseConfig from '../config/supabaseConfig';
 import { VictoryPie } from 'victory-native';
 import { Badge, HStack, Icon, NativeBaseProvider, ScrollView, VStack, theme } from 'native-base';
@@ -172,7 +172,7 @@ export default function App() {
             />
           </View>
         </View>
-        <HStack space={2} marginLeft="6" marginTop="5">
+        <HStack space={2} marginLeft="6" marginTop="5" marginBottom="10">
           <VStack space={3}>
             {financas.map((financa: { id: number; nome: string; valor: string; }) => (
               <HStack key={financa.id}>
@@ -198,5 +198,4 @@ export default function App() {
         </HStack>
       </ScrollView>
     </NativeBaseProvider>
-  );
-}
+  );}

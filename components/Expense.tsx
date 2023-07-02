@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, FlatList, StyleSheet } from 'react-native';
+import { View, Text, TextInput, Button, FlatList} from 'react-native';
 import { Alert } from 'react-native';
 import { AntDesign } from "@expo/vector-icons";
 import 'react-native-url-polyfill/auto'
-import { useFocusEffect, useRouter } from 'expo-router';
+import { useFocusEffect} from 'expo-router';
 import supabaseConfig from '../config/supabaseConfig';
 import { Badge, HStack, Icon, NativeBaseProvider, ScrollView, VStack, theme } from 'native-base';
 import { VictoryPie } from 'victory-native';
@@ -60,6 +60,7 @@ export default function App() {
                 console.error('Error updating item:', error);
               } else {
                 console.log('Item updated successfully:', id);
+                fetchDespesas();
               }
             } catch (error) {
               console.error('Error updating item:', error);
@@ -81,7 +82,7 @@ export default function App() {
           text: 'Excluir', style: "destructive",
           onPress: async () => {
             try {
-              const { data, error } = await supabase
+              const { error } = await supabase
                 .from('despesa')
                 .delete()
                 .eq('id', id);
@@ -171,7 +172,7 @@ export default function App() {
             />
           </View>
         </View>
-        <HStack space={2} marginLeft="6" marginTop="5">
+        <HStack space={2} marginLeft="6" marginTop="5" marginBottom="10">
           <VStack space={3}>
             {despesas.map((despesa: { id: number; nome: string; valor: string; }) => (
               <HStack key={despesa.id}>
@@ -197,12 +198,4 @@ export default function App() {
         </HStack>
       </ScrollView>
     </NativeBaseProvider>
-  );
-}
-
-const styles = StyleSheet.create({
-  button: {
-    marginTop: 40,
-    backgroundColor: '#150068ff',
-  },
-});
+  );}
