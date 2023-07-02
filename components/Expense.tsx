@@ -121,9 +121,12 @@ export default function App() {
     }
   };
 
-  function handleBadgePress(id: React.Key | null | undefined, nome: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | null | undefined, valor: string): void {
-    throw new Error('Function not implemented.');
-  }
+  const handleBadgePress = (id: number, nome: string, valor: string) => {
+    Alert.alert(
+      `Nome: ${nome}`,
+      `Valor: ${valor}`,
+    );
+  };
 
   return (
     <NativeBaseProvider theme={theme}>
