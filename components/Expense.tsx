@@ -5,7 +5,7 @@ import { AntDesign } from "@expo/vector-icons";
 import 'react-native-url-polyfill/auto'
 import { useFocusEffect, useRouter } from 'expo-router';
 import supabaseConfig from '../config/supabaseConfig';
-import { Badge, HStack, Icon, NativeBaseProvider, VStack, theme } from 'native-base';
+import { Badge, HStack, Icon, NativeBaseProvider, ScrollView, VStack, theme } from 'native-base';
 import { VictoryPie } from 'victory-native';
 
 const supabase = supabaseConfig;
@@ -127,70 +127,72 @@ export default function App() {
 
   return (
     <NativeBaseProvider theme={theme}>
-      <VictoryPie
-          data={despesas}
-          x="nome"
-          y="valor"
-          colorScale="qualitative"
-          padding={100}
-      />
-      <View style={{ flex: 1, padding: 30 }}>
-        <View style={{ flexDirection: 'row' }}>
-          <View style={{ flex: 1 }}>
-            <Text style={{ fontSize: 16, fontWeight: 'bold' }}>Nome:</Text>
-            <TextInput
-              style={{ borderWidth: 1, padding: 5 }}
-              value={nome}
-              onChangeText={setNome}
-            />
+      <ScrollView>
+        <VictoryPie
+            data={despesas}
+            x="nome"
+            y="valor"
+            colorScale="qualitative"
+            padding={100}
+        />
+        <View style={{ flex: 1, padding: 30 }}>
+          <View style={{ flexDirection: 'row' }}>
+            <View style={{ flex: 1 }}>
+              <Text style={{ fontSize: 16, fontWeight: 'bold' }}>Nome:</Text>
+              <TextInput
+                style={{ borderWidth: 1, padding: 5 }}
+                value={nome}
+                onChangeText={setNome}
+              />
+            </View>
+            <View style={{ flex: 1, marginLeft: 10, marginBottom: 20 }}>
+              <Text style={{ fontSize: 16, fontWeight: 'bold' }}>Valor:</Text>
+              <TextInput
+                style={{ borderWidth: 1, padding: 5 }}
+                keyboardType="numeric"
+                value={valor}
+                onChangeText={setValor}
+              />
+            </View>
           </View>
-          <View style={{ flex: 1, marginLeft: 10, marginBottom: 20 }}>
-            <Text style={{ fontSize: 16, fontWeight: 'bold' }}>Valor:</Text>
-            <TextInput
-              style={{ borderWidth: 1, padding: 5 }}
-              keyboardType="numeric"
-              value={valor}
-              onChangeText={setValor}
+          <Button color="#150068ff" title="Adicionar" onPress={handleAddItem} />
+          <View style={{ marginTop: 20 }}>
+            <FlatList
+              data={lista}
+              renderItem={({ item }) => (
+                <View style={{ flexDirection: 'row', marginVertical: 5 }}>
+                  <Text style={{ flex: 1 }}>{item.nome}</Text>
+                  <Text style={{ flex: 1, textAlign: 'right' }}>{item.valor}</Text>
+                </View>
+              )}
             />
           </View>
         </View>
-        <Button color="#150068ff" title="Adicionar" onPress={handleAddItem} />
-        <View style={{ marginTop: 20 }}>
-          <FlatList
-            data={lista}
-            renderItem={({ item }) => (
-              <View style={{ flexDirection: 'row', marginVertical: 5 }}>
-                <Text style={{ flex: 1 }}>{item.nome}</Text>
-                <Text style={{ flex: 1, textAlign: 'right' }}>{item.valor}</Text>
-              </View>
-            )}
-          />
-        </View>
-      </View>
-      <HStack space={2} marginLeft="6" marginTop="5">
-        <VStack space={3}>
-          {despesas.map((despesa: { id: number; nome: string; valor: string; }) => (
-            <HStack key={despesa.id}>
-              <Badge colorScheme="danger">
-                <Text onPress={() => handleBadgePress(despesa.id, despesa.nome, despesa.valor)}>
-                  {despesa.nome}
-                </Text>
-              </Badge>
-              <Icon
-                as={<AntDesign name="edit" />}
-                size="sm"
-                onPress={() => handleUpdateItemDespesa(despesa.id)}
-              />
-              <Icon
-                as={<AntDesign name="delete" />}
-                size="sm"
-                onPress={() => handleDeleteItemDespesa(despesa.id)}
-                color="red.500"
-              />
-            </HStack>
-          ))}
-        </VStack>
-      </HStack>
+        <HStack space={2} marginLeft="6" marginTop="5">
+          <VStack space={3}>
+            {despesas.map((despesa: { id: number; nome: string; valor: string; }) => (
+              <HStack key={despesa.id}>
+                <Badge colorScheme="danger">
+                  <Text onPress={() => handleBadgePress(despesa.id, despesa.nome, despesa.valor)}>
+                    {despesa.nome}
+                  </Text>
+                </Badge>
+                <Icon
+                  as={<AntDesign name="edit" />}
+                  size="sm"
+                  onPress={() => handleUpdateItemDespesa(despesa.id)}
+                />
+                <Icon
+                  as={<AntDesign name="delete" />}
+                  size="sm"
+                  onPress={() => handleDeleteItemDespesa(despesa.id)}
+                  color="red.500"
+                />
+              </HStack>
+            ))}
+          </VStack>
+        </HStack>
+      </ScrollView>
     </NativeBaseProvider>
   );
 }

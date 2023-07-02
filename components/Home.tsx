@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Center, NativeBaseProvider, Box, HStack, VStack, Text, extendTheme, Avatar, Badge, Fab, Icon } from 'native-base';
+import React, { useEffect, useState} from 'react';
+import { Center, NativeBaseProvider, Box, HStack, VStack, Text, extendTheme, Avatar, Badge, Fab, Icon, ScrollView } from 'native-base';
 import 'react-native-url-polyfill/auto'
 import { Alert } from 'react-native';
 import { AntDesign } from "@expo/vector-icons";
@@ -221,63 +221,64 @@ export default function Home() {
           </VStack>
         </HStack>
       </Box>
+      <ScrollView>
+        <VictoryPie
+          data={[
+            { x: "Finanças", y: totalfinancas},
+            { x: "Despesas", y: totaldespesas}
+          ]}
+          colorScale={["green", "#c43a31"]}
+          labels={({ datum }) => `R$ ${datum.y}`}
+          labelRadius={({ innerRadius }) => innerRadius + 40 }
+          padding={100}
+          style={{ labels: { fill: "white", fontSize: 20, fontWeight: "bold" } }}
+        />
 
-      <VictoryPie
-        data={[
-          { x: "Finanças", y: totalfinancas},
-          { x: "Despesas", y: totaldespesas}
-        ]}
-        colorScale={["green", "#c43a31"]}
-        labels={({ datum }) => `R$ ${datum.y}`}
-        labelRadius={({ innerRadius }) => innerRadius + 40 }
-        padding={100}
-        style={{ labels: { fill: "white", fontSize: 20, fontWeight: "bold" } }}
-      />
-
-      <HStack space={2} marginLeft="6" marginTop="5">
-        <VStack space={3}>
-          {financas.map((financa: { id: number; nome: string; valor: string; }) => (
-            <HStack key={financa.id}>
-              <Badge colorScheme="success">
-                <Text onPress={() => handleBadgePress(financa.id, financa.nome, financa.valor)}>
-                  {financa.nome}
-                </Text>
-              </Badge>
-              <Icon
-                as={<AntDesign name="edit" />}
-                size="sm"
-                onPress={() => handleUpdateItemFinanca(financa.id)}
-              />
-              <Icon
-                as={<AntDesign name="delete" />}
-                size="sm"
-                onPress={() => handleDeleteItemFinanca(financa.id)}
-                color="red.500"
-              />
-            </HStack>
-          ))}
-          {despesas.map((despesa: { id: number; nome: string; valor: string; }) => (
-            <HStack key={despesa.id}>
-              <Badge colorScheme="danger">
-                <Text onPress={() => handleBadgePress(despesa.id, despesa.nome, despesa.valor)}>
-                  {despesa.nome}
-                </Text>
-              </Badge>
-              <Icon
-                as={<AntDesign name="edit" />}
-                size="sm"
-                onPress={() => handleUpdateItemDespesa(despesa.id)}
-              />
-              <Icon
-                as={<AntDesign name="delete" />}
-                size="sm"
-                onPress={() => handleDeleteItemDespesa(despesa.id)}
-                color="red.500"
-              />
-            </HStack>
-          ))}
-        </VStack>
-      </HStack>
+        <HStack space={2} marginLeft="6" marginTop="5">
+          <VStack space={3}>
+            {financas.map((financa: { id: number; nome: string; valor: string; }) => (
+              <HStack key={financa.id}>
+                <Badge colorScheme="success">
+                  <Text onPress={() => handleBadgePress(financa.id, financa.nome, financa.valor)}>
+                    {financa.nome}
+                  </Text>
+                </Badge>
+                <Icon
+                  as={<AntDesign name="edit" />}
+                  size="sm"
+                  onPress={() => handleUpdateItemFinanca(financa.id)}
+                />
+                <Icon
+                  as={<AntDesign name="delete" />}
+                  size="sm"
+                  onPress={() => handleDeleteItemFinanca(financa.id)}
+                  color="red.500"
+                />
+              </HStack>
+            ))}
+            {despesas.map((despesa: { id: number; nome: string; valor: string; }) => (
+              <HStack key={despesa.id}>
+                <Badge colorScheme="danger">
+                  <Text onPress={() => handleBadgePress(despesa.id, despesa.nome, despesa.valor)}>
+                    {despesa.nome}
+                  </Text>
+                </Badge>
+                <Icon
+                  as={<AntDesign name="edit" />}
+                  size="sm"
+                  onPress={() => handleUpdateItemDespesa(despesa.id)}
+                />
+                <Icon
+                  as={<AntDesign name="delete" />}
+                  size="sm"
+                  onPress={() => handleDeleteItemDespesa(despesa.id)}
+                  color="red.500"
+                />
+              </HStack>
+            ))}
+          </VStack>
+        </HStack>
+      </ScrollView>
     </NativeBaseProvider>
   );
 }
