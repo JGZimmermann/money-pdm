@@ -1,22 +1,26 @@
-import React, { useEffect, useState } from 'react';
-import { Center, NativeBaseProvider, Box, HStack, VStack, Text, extendTheme, Avatar, Badge, Fab, Icon } from 'native-base';
+import React, { useState} from 'react';
+import { NativeBaseProvider, Box, HStack, VStack, Text, extendTheme, Avatar, Badge, Icon, ScrollView } from 'native-base';
 import 'react-native-url-polyfill/auto'
-import { createClient } from '@supabase/supabase-js';
 import { Alert } from 'react-native';
 import { AntDesign } from "@expo/vector-icons";
+import { VictoryPie } from 'victory-native';
+import { useFocusEffect} from 'expo-router';
+import supabaseConfig from '../config/supabaseConfig';
 
-const supabaseUrl = '';
-const supabaseKey = '';
-const supabase = createClient(supabaseUrl, supabaseKey);
+const supabase = supabaseConfig;
 
 export default function Home() {
-  const [financas, setFinancas] = useState([]);
-  const [despesas, setDespesas] = useState([]);
+  const [financas, setFinancas] = useState<any>([]);
+  const [despesas, setDespesas] = useState<any>([]);
+  const [totalfinancas, setTotalFinancas] = useState<any>([]);
+  const [totaldespesas, setTotalDespesas] = useState<any>([]);
 
-  useEffect(() => {
+  useFocusEffect(() => {
     fetchFinancas();
     fetchDespesas();
-  }, []);
+    fetchTotalDespesas();
+    fetchTotalFinancas();
+  });
 
   const fetchFinancas = async () => {
     try {
@@ -46,7 +50,31 @@ export default function Home() {
     }
   };
 
-  const handleUpdateItemFinanca = async (id) => {
+  const fetchTotalFinancas = async () => {
+    try {
+      let total = 0;
+      financas.forEach(function (financa: { valor: number; }) {
+        total = total + financa.valor;
+      }); 
+      setTotalFinancas(total);
+    } catch (error) {
+      console.error('Error fetching total expenses:', error);
+    }
+  };
+
+  const fetchTotalDespesas = async () => {
+    try {
+      let total = 0;
+      despesas.forEach(function (despesa: { valor: number; }) {
+        total = total + despesa.valor;
+      }); 
+      setTotalDespesas(total);
+    } catch (error) {
+      console.error('Error fetching total expenses:', error);
+    }
+  };
+
+  const handleUpdateItemFinanca = async (id: number) => {
     Alert.prompt(
       'Atualizar Item',
       'Informe os novos valores:',
@@ -54,7 +82,7 @@ export default function Home() {
         { text: 'Cancelar', style: 'cancel' },
         {
           text: 'Atualizar',
-          onPress: async (text) => {
+          onPress: async (text: string | undefined) => {
             const [nome, valor] = text.split(',');
 
             try {
@@ -79,7 +107,7 @@ export default function Home() {
     );
   };
 
-  const handleUpdateItemDespesa = async (id) => {
+  const handleUpdateItemDespesa = async (id: number) => {
     Alert.prompt(
       'Atualizar Item',
       'Informe os novos valores:',
@@ -87,7 +115,7 @@ export default function Home() {
         { text: 'Cancelar', style: 'cancel' },
         {
           text: 'Atualizar',
-          onPress: async (text) => {
+          onPress: async (text: string | undefined) => {
             const [nome, valor] = text.split(',');
 
             try {
@@ -112,8 +140,7 @@ export default function Home() {
     );
   };
   
-  
-  const handleDeleteItemFinanca = async (id) => {
+  const handleDeleteItemFinanca = async (id: number) => {
     Alert.alert(
       'Excluir Item',
       'Tem certeza que deseja excluir o item?',
@@ -123,7 +150,7 @@ export default function Home() {
           text: 'Excluir', style: "destructive",
           onPress: async () => {
             try {
-              const { data, error } = await supabase
+              const { error } = await supabase
                 .from('financa')
                 .delete()
                 .eq('id', id);
@@ -143,7 +170,7 @@ export default function Home() {
     );
   };
   
-  const handleDeleteItemDespesa = async (id) => {
+  const handleDeleteItemDespesa = async (id: number) => {
     Alert.alert(
       'Excluir Item',
       'Tem certeza que deseja excluir o item?',
@@ -172,8 +199,6 @@ export default function Home() {
       ],
     );
   };
-  
-  
 
   const handleBadgePress = (id: number, nome: string, valor: string) => {
     Alert.alert(
@@ -181,7 +206,6 @@ export default function Home() {
       `Valor: ${valor}`,
     );
   };
-  
 
   return (
     <NativeBaseProvider theme={theme}>
@@ -194,50 +218,63 @@ export default function Home() {
           </VStack>
         </HStack>
       </Box>
-      <HStack space={2} marginLeft="6" marginTop="5">
-        <VStack space={3}>
-          {financas.map((financa) => (
-            <HStack key={financa.id}>
-              <Badge colorScheme="success">
-                <Text onPress={() => handleBadgePress(financa.id, financa.nome, financa.valor)}>
-                  {financa.nome}
-                </Text>
-              </Badge>
-              <Icon
-                as={<AntDesign name="edit" />}
-                size="sm"
-                onPress={() => handleUpdateItemFinanca(financa.id)}
-              />
-              <Icon
-                as={<AntDesign name="delete" />}
-                size="sm"
-                onPress={() => handleDeleteItemFinanca(financa.id)}
-                color="red.500"
-              />
-            </HStack>
-          ))}
-          {despesas.map((despesa) => (
-            <HStack key={despesa.id}>
-              <Badge colorScheme="danger">
-                <Text onPress={() => handleBadgePress(despesa.id, despesa.nome, despesa.valor)}>
-                  {despesa.nome}
-                </Text>
-              </Badge>
-              <Icon
-                as={<AntDesign name="edit" />}
-                size="sm"
-                onPress={() => handleUpdateItemDespesa(despesa.id)}
-              />
-              <Icon
-                as={<AntDesign name="delete" />}
-                size="sm"
-                onPress={() => handleDeleteItemDespesa(despesa.id)}
-                color="red.500"
-              />
-            </HStack>
-          ))}
-        </VStack>
-      </HStack>
+      <ScrollView>
+        <VictoryPie
+          data={[
+            { x: "Finanças", y: totalfinancas},
+            { x: "Despesas", y: totaldespesas}
+          ]}
+          colorScale={["green", "#c43a31"]}
+          labels={({ datum }) => `R$ ${datum.y}`}
+          labelRadius={({ innerRadius }) => innerRadius + 40 }
+          padding={100}
+          style={{ labels: { fill: "white", fontSize: 20, fontWeight: "bold" } }}
+        />
+        <HStack space={2} marginLeft="6" marginBottom="10">
+          <VStack space={3}>
+            {financas.map((financa: { id: number; nome: string; valor: string; }) => (
+              <HStack key={financa.id}>
+                <Badge colorScheme="success">
+                  <Text onPress={() => handleBadgePress(financa.id, financa.nome, financa.valor)}>
+                    {financa.nome}
+                  </Text>
+                </Badge>
+                <Icon
+                  as={<AntDesign name="edit" />}
+                  size="sm"
+                  onPress={() => handleUpdateItemFinanca(financa.id)}
+                />
+                <Icon
+                  as={<AntDesign name="delete" />}
+                  size="sm"
+                  onPress={() => handleDeleteItemFinanca(financa.id)}
+                  color="red.500"
+                />
+              </HStack>
+            ))}
+            {despesas.map((despesa: { id: number; nome: string; valor: string; }) => (
+              <HStack key={despesa.id}>
+                <Badge colorScheme="danger">
+                  <Text onPress={() => handleBadgePress(despesa.id, despesa.nome, despesa.valor)}>
+                    {despesa.nome}
+                  </Text>
+                </Badge>
+                <Icon
+                  as={<AntDesign name="edit" />}
+                  size="sm"
+                  onPress={() => handleUpdateItemDespesa(despesa.id)}
+                />
+                <Icon
+                  as={<AntDesign name="delete" />}
+                  size="sm"
+                  onPress={() => handleDeleteItemDespesa(despesa.id)}
+                  color="red.500"
+                />
+              </HStack>
+            ))}
+          </VStack>
+        </HStack>
+      </ScrollView>
     </NativeBaseProvider>
   );
 }
