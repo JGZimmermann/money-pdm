@@ -181,17 +181,22 @@ export default function App() {
                     {despesa.nome}
                   </Text>
                 </Badge>
-                <Icon
-                  as={<AntDesign name="edit" />}
-                  size="sm"
-                  onPress={() => handleUpdateItemDespesa(despesa.id)}
+                <HStack marginRight="3" marginLeft="5">
+                  <Text onPress={() => handleUpdateItemDespesa(despesa.id)}>Editar</Text>
+                  <Icon
+                    as={<AntDesign name="edit" />}
+                    size="sm"
+                  />
+                </HStack>
+                <HStack>
+                  <Text onPress={() => handleDeleteItemDespesa(despesa.id)}>Excluir</Text>
+                  <Icon
+                    as={<AntDesign name="delete" />}
+                    size="sm"
+                    onPress={() => handleDeleteItemDespesa(despesa.id)}
+                    color="red.500"
                 />
-                <Icon
-                  as={<AntDesign name="delete" />}
-                  size="sm"
-                  onPress={() => handleDeleteItemDespesa(despesa.id)}
-                  color="red.500"
-                />
+                </HStack>
               </HStack>
             ))}
           </VStack>
