@@ -231,19 +231,18 @@ export default function Home() {
         </HStack>
       </Box>
       <ScrollView>
-        <Box alignItems="center" marginLeft={20} marginRight={20}>
-          <VStack space={3}>
-            <VictoryPie
-              data={[
-                { x: "Finanças", y: totalfinancas},
-                { x: "Despesas", y: totaldespesas}
-              ]}
-              colorScale={["#3cb431", "#c43a31"]}
-              labels={({ datum }) => `R$ ${datum.y}`}
-              labelRadius={({ innerRadius }) => innerRadius + 40 }
-              style={{ labels: { fill: "white", fontSize: 20, fontWeight: "bold" } }}
-            />
-          </VStack>
+        <Box alignItems="center" margin={0} maxHeight={450}>
+          <VictoryPie
+            data={[
+              { x: "Finanças", y: totalfinancas},
+              { x: "Despesas", y: totaldespesas}
+            ]}
+            width={400}
+            colorScale={["#3cb431", "#c43a31"]}
+            labels={({ datum }) => `R$ ${datum.y}`}
+            labelRadius={({ innerRadius }) => innerRadius + 40 }
+            style={{ labels: { fill: "white", fontSize: 20, fontWeight: "bold" } }}
+          />
         </Box>
         <Box alignItems="center" marginBottom={10}>
           <Text fontSize="3xl" color={saldo > 0 ? '#3cb431' : '#c43a31'}> Saldo: {saldo} </Text>
