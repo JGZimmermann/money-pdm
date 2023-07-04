@@ -14,12 +14,14 @@ export default function Home() {
   const [despesas, setDespesas] = useState<any>([]);
   const [totalfinancas, setTotalFinancas] = useState<any>([]);
   const [totaldespesas, setTotalDespesas] = useState<any>([]);
+  const [saldo, setSaldo] = useState<any>([]);
 
   useFocusEffect(() => {
     fetchFinancas();
     fetchDespesas();
     fetchTotalDespesas();
     fetchTotalFinancas();
+    fetchSaldo();
   });
 
   const fetchFinancas = async () => {
@@ -71,6 +73,16 @@ export default function Home() {
       setTotalDespesas(total);
     } catch (error) {
       console.error('Error fetching total expenses:', error);
+    }
+  };
+
+  const fetchSaldo = async () => {
+    try {
+      let saldo = 0;
+      saldo = totalfinancas-totaldespesas;
+      setSaldo(saldo);
+    } catch (error) {
+      console.error('Error fetching saldo:', error);
     }
   };
 
@@ -219,17 +231,23 @@ export default function Home() {
         </HStack>
       </Box>
       <ScrollView>
-        <VictoryPie
-          data={[
-            { x: "Finanças", y: totalfinancas},
-            { x: "Despesas", y: totaldespesas}
-          ]}
-          colorScale={["green", "#c43a31"]}
-          labels={({ datum }) => `R$ ${datum.y}`}
-          labelRadius={({ innerRadius }) => innerRadius + 40 }
-          padding={100}
-          style={{ labels: { fill: "white", fontSize: 20, fontWeight: "bold" } }}
-        />
+        <Box alignItems="center" marginLeft={20} marginRight={20}>
+          <VStack space={3}>
+            <VictoryPie
+              data={[
+                { x: "Finanças", y: totalfinancas},
+                { x: "Despesas", y: totaldespesas}
+              ]}
+              colorScale={["#3cb431", "#c43a31"]}
+              labels={({ datum }) => `R$ ${datum.y}`}
+              labelRadius={({ innerRadius }) => innerRadius + 40 }
+              style={{ labels: { fill: "white", fontSize: 20, fontWeight: "bold" } }}
+            />
+          </VStack>
+        </Box>
+        <Box alignItems="center" marginBottom={10}>
+          <Text fontSize="3xl" color={saldo > 0 ? '#3cb431' : '#c43a31'}> Saldo: {saldo} </Text>
+        </Box>
         <HStack space={2} marginLeft="6" marginBottom="10">
           <VStack space={3}>
             {financas.map((financa: { id: number; nome: string; valor: string; }) => (
