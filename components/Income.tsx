@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, FlatList} from 'react-native';
+import { View, TextInput, Button, FlatList} from 'react-native';
 import { Alert } from 'react-native';
 import { AntDesign } from "@expo/vector-icons";
 import 'react-native-url-polyfill/auto'
 import { useFocusEffect} from 'expo-router';
 import supabaseConfig from '../config/supabaseConfig';
 import { VictoryPie } from 'victory-native';
-import { Badge, HStack, Icon, NativeBaseProvider, ScrollView, VStack, theme } from 'native-base';
+import { Badge, HStack, Icon, NativeBaseProvider, ScrollView, VStack, theme, Box, Text} from 'native-base';
 
 const supabase = supabaseConfig;
 
@@ -20,9 +20,11 @@ export default function App() {
   const [valor, setValor] = useState('');
   const [lista, setLista] = useState<Item[]>([]);
   const [financas, setFinancas] = useState<any>([]);
+  const [totalfinancas, setTotalFinancas] = useState<any>([]);
 
   useFocusEffect(() => {
     fetchFinancas();
+    fetchTotalFinancas();
   });
 
   const fetchFinancas = async () => {
@@ -36,6 +38,18 @@ export default function App() {
       }
     } catch (error) {
       console.error('Error fetching finances:', error);
+    }
+  };
+
+  const fetchTotalFinancas = async () => {
+    try {
+      let total = 0;
+      financas.forEach(function (financa: { valor: number; }) {
+        total = total + financa.valor;
+      }); 
+      setTotalFinancas(total);
+    } catch (error) {
+      console.error('Error fetching total expenses:', error);
     }
   };
 
@@ -139,6 +153,9 @@ export default function App() {
             colorScale="qualitative"
             padding={100}
         />
+        <Box alignItems="center" marginBottom={5}>
+          <Text fontSize="3xl" color="#3cb431"> Total: {totalfinancas} </Text>
+        </Box>
         <View style={{ flex: 1, padding: 30 }}>
           <View style={{ flexDirection: 'row' }}>
             <View style={{ flex: 1 }}>
